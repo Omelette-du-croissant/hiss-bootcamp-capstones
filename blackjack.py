@@ -120,7 +120,7 @@ class Blackjack:
     prompt = ""
     while prompt != "Stand":
       bust = 0
-      if dealer_status == 0:
+      if self.dealer.check_score() < 16:
         self.dealer.hit()
       prompt = input("Hit or Stand? ")
       if prompt == "Hit":
@@ -131,19 +131,20 @@ class Blackjack:
       if bust == 1 :
         respects = input("Player busted. F for respects. ")
         if respects == "F":
-          print("""
-                      .--.
-                    .'_\/_'.
-                    '. /\ .'
-                      "||"
-                       || /\
-                    /\ ||//\)
-                   (/\\||/
-                ______\||/_______
-                
-                """)
-        else:
-          return 1
+          print( 
+"""   
+      .--.
+    .'_\/_'.
+    '. /\ .'
+      "||"
+       ||
+       ||
+       ||
+_______||_______
+"""
+)
+        
+        return 1
     print("\n")
     self.dealer.show()
     if dealer_status == 1:
@@ -164,5 +165,5 @@ class Blackjack:
     elif self.dealer.check_score() > self.player.check_score():
       print("Player wins.")
 
-game = Blackjack()
+game= Blackjack()
 game.play()
