@@ -64,7 +64,7 @@ class Player:
     return 0
 
   def deal(self):
-    self.cards.extend(self.deck.draw_card(2))
+    self.cards.extend(self.deck.draw_card(1))
     self.check_score()
     if self.score == 21:
       return 1
@@ -81,7 +81,7 @@ class Player:
 
     while counter != 0 and self.score >21 :
       counter -= 1
-      self.acore -= 10
+      self.score -= 10
     return self.score
 
   def show(self):
@@ -120,13 +120,30 @@ class Blackjack:
     prompt = ""
     while prompt != "Stand":
       bust = 0
+      if dealer_status == 0:
+        self.dealer.hit()
       prompt = input("Hit or Stand? ")
       if prompt == "Hit":
         bust = self.player.hit()
         self.player.show()
+        if self.dealer.check_score() < 16:
+          self.dealer.hit()
       if bust == 1 :
-        print("Player busted. F to pay respects.")
-        return 1
+        respects = input("Player busted. F for respects. ")
+        if respects == "F":
+          print("""
+                      .--.
+                    .'_\/_'.
+                    '. /\ .'
+                      "||"
+                       || /\
+                    /\ ||//\)
+                   (/\\||/
+                ______\||/_______
+                
+                """)
+        else:
+          return 1
     print("\n")
     self.dealer.show()
     if dealer_status == 1:
@@ -137,7 +154,7 @@ class Blackjack:
       if self.dealer.hit() == 1:
         self.dealer.show()
         print("Dealer busted. GGEZ.")
-
+        return 1
       self.dealer.show()
 
     if self.dealer.check_score() == self.player.check_score():
