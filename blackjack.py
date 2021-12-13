@@ -164,5 +164,5 @@ class Blackjack:
     elif self.dealer.check_score() > self.player.check_score():
       print("Player wins.")
 
-b= Blackjack()
-b.play()
+game = Blackjack()
+game.play()
