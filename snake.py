@@ -1,9 +1,8 @@
 import random
-import turtle
-from turtle import Screen, Turtle
+import turtle as t
 import time
 
-screen = Screen()
+screen = t.Screen()
 screen.setup(width=600, height=600)
 screen.bgcolor("black")
 screen.title("Parseltongue Sim")
@@ -24,7 +23,7 @@ class Snake:
             self.add_snake(position)
 
     def add_snake(self, position):
-        new_segment = Turtle("square")
+        new_segment = t.Turtle("square")
         new_segment.color("white")
         new_segment.penup()
         new_segment.goto(position)
@@ -35,9 +34,9 @@ class Snake:
 
     def move(self):
         for seg_num in range(len(self.segments) - 1, 0, -1):
-            new_x = self.segments[seg_num -1].xcor()
+            new_x = self.segments[seg_num - 1].xcor()
             new_y = self.segments[seg_num - 1].ycor()
-            self.segments[seg_num].goto(new_x,new_y)
+            self.segments[seg_num].goto(new_x, new_y)
         self.head.forward(move_dist)
 
     def up(self):
@@ -57,9 +56,7 @@ class Snake:
             self.head.setheading(0)
 
 
-
-
-class Food(Turtle):
+class Food(t.Turtle):
     def __init__(self):
         super().__init__()
         self.shape("circle")
@@ -77,15 +74,15 @@ class Food(Turtle):
         self.goto(random_x, random_y)
 
 
-class Scoreboard(Turtle):
+class Scoreboard(t.Turtle):
     def __init__(self):
         super().__init__()
         self.color("white")
         self.penup()
         self.hideturtle()
-        self.goto(0,270)
+        self.goto(0, 270)
         self.score = 0
-        self.write(f"Score: {self.score}", align = "center", font = ("Arial", 15, "normal"))
+        self.write(f"Score: {self.score}", align="center", font=("Arial", 15, "normal"))
 
     def score_counter(self):
         self.score += 1
@@ -96,11 +93,11 @@ class Scoreboard(Turtle):
         self.goto(0, 40)
         self.write("Bonk", align="center", font=("Arial", 20, "normal"))
         self.goto(0, -40)
-        self.write("GAME OVER", align ="center", font=("Arial", 30, "normal"))
+        self.write("GAME OVER", align="center", font=("Arial", 30, "normal"))
 
     def forbidden_nom(self):
         self.goto(0, 40)
-        self.write("Forbidden spaghetto", align="center", font=("Arial", 20, "normal"))
+        self.write("Forbidden nom nom", align="center", font=("Arial", 20, "normal"))
         self.goto(0, -40)
         self.write("GAME OVER", align="center", font=("Arial", 30, "normal"))
 
@@ -123,7 +120,13 @@ while game_is_on:
     snake.move()
 
     if snake.head.distance(food) < 15:
-        print("cronch cronch cronch")
+        nom_agent = t.Turtle()
+        nom_agent.color("white")
+        nom_agent.hideturtle()
+        nom_agent.penup()
+        nom_agent.write("om nom nom", align="center", font=("Arial", 8, "normal"))
+        print("om nom nom")
+        t.ontimer(nom_agent.clear, t=1000)
         food.refresh()
         snake.add_tail()
         scoreboard.score_counter()
@@ -139,6 +142,4 @@ while game_is_on:
             game_is_on = False
             scoreboard.forbidden_nom()
 
-
 screen.exitonclick()
-
