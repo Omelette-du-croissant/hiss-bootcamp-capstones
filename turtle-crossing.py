@@ -99,17 +99,14 @@ while game_on:
     time.sleep(0.05)
     screen.update()
 
-    # Create and move car
     car_factory.make_car()
     car_factory.move()
 
-    # Detect collision with car
     for car in car_factory.all_cars:
         if player.distance(car) < 21:
             score.game_over()
             game_on = False
 
-    # Detect successful crossing and speed up cars
     if player.finish_line():
         player.go_to_start()
         car_factory.increase_speed()
