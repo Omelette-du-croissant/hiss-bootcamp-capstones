@@ -1,3 +1,5 @@
-# hiss-bootcamp-capstones
+# Python Bootcamp Capstone Projects
 
-100 Days of Code: Python capstone projects.
+## Description
+  
+  This repository includes 100 Days of Code: Python Bootcamp capstone projects.
