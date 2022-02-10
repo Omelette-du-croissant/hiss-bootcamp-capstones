@@ -57,16 +57,52 @@ current_card = {}
 score = 0
 streak = 0
 click_count = 1
+how_to_count = 1
 
+
+def toggle_how_to():
+    global how_to_count
+    how_to_play.config(state="disabled")
+    if how_to_count % 1 == 0:
+        canvas.itemconfig(card_title, text="How to play", font=('Helvetica', '40'), fill='#3B322C', justify='center')
+        canvas.itemconfig(card_text,
+                          text="\n\n\n\n\n\n\n\n\n\n\n\n Wrong           Flip              Start         Check          Correct \nguess          card                               score            guess",
+                          font=('Helvetica', '20'), fill='#3B322C')
+        how_to_count += 1
+        right_button.config(state="disabled")
+        wrong_button.config(state="disabled")
+        flip_button.config(state="disabled")
+        score_button.config(state="disabled")
+        start_button.config(state="normal")
+    elif canvas.itemcget(card_title, 'text') == "Welcome to":
+        how_to_count += 1
+        next_card()
+    elif canvas.itemcget(card_title, 'text') == "How to play":
+        how_to_count += 1
+        get_current_card()
+    else:
+        get_current_card()
+        how_to_count += 1
+        right_button.config(state="normal")
+        wrong_button.config(state="normal")
+        flip_button.config(state="normal")
+        score_button.config(state="normal")
+        how_to_play.config(state="disabled")
 
 def toggle_counter():
     global click_count
     if click_count % 2 == 1:
         show_score()
         click_count += 1
+        right_button.config(state="disabled")
+        wrong_button.config(state="disabled")
+        flip_button.config(state="disabled")
     else:
         get_current_card()
         click_count += 1
+        right_button.config(state="normal")
+        wrong_button.config(state="normal")
+        flip_button.config(state="normal")
 
 
 def right_answer():
@@ -107,6 +143,13 @@ def next_card():
         canvas.itemconfig(card_title, text="French", font=('Helvetica', '40'), fill='#3B322C', justify='center')
         canvas.itemconfig(card_text, text=current_card["French"], font=('Helvetica', '60'), fill='#3B322C',
                           justify='center')
+
+    right_button.config(state="normal")
+    wrong_button.config(state="normal")
+    score_button.config(state="normal")
+    flip_button.config(state="normal")
+    start_button.config(state="disabled")
+    how_to_play.config(state="normal")
 
 
 def flip_card():
@@ -152,7 +195,7 @@ def show_score():
 window = tk.Tk()
 window.title('Flashcards')
 window.config(padx=50, pady=50, bg='#B1DDC6')
-
+window.resizable(False, False)
 
 canvas = tk.Canvas(width=800, height=526)
 canvas.config(bg='#B1DDC6', highlightthickness=0)
@@ -188,5 +231,14 @@ start_image = tk.PhotoImage(file='images/start.png')
 start_button = tk.Button(window, image=start_image, highlightthickness=2, borderwidth=0, bg='#B1DDC6',
                          command=next_card, activebackground='#B1DDC6')
 start_button.grid(row=1, column=2)
+
+how_to_play = tk.Button(window, text='How to play', highlightthickness=2, borderwidth=0, bg='#B1DDC6',
+                        activebackground='#B1DDC6', font=('Helvetica', '20', 'bold'), command=toggle_how_to)
+how_to_play.grid(row=2, column=0, columnspan=5)
+
+right_button.config(state="disabled")
+wrong_button.config(state="disabled")
+score_button.config(state="disabled")
+flip_button.config(state="disabled")
 
 window.mainloop()
