@@ -66,7 +66,8 @@ def toggle_how_to():
     if how_to_count % 1 == 0:
         canvas.itemconfig(card_title, text="How to play", font=('Helvetica', '40'), fill='#3B322C', justify='center')
         canvas.itemconfig(card_text,
-                          text="\n\n\n\n\n\n\n\n\n\n\n\n Wrong           Flip              Start         Check          Correct \nguess          card                               score            guess",
+                          text="\n\n\n\n\n\n\n\n\n\n\n\n Wrong           Flip              Start         Check        "
+                               "  Correct \nguess          card                               score            guess",
                           font=('Helvetica', '20'), fill='#3B322C')
         how_to_count += 1
         right_button.config(state="disabled")
