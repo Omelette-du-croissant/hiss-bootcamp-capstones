@@ -1,3 +1,4 @@
+import copy
 import tkinter as tk
 import random
 
@@ -53,6 +54,8 @@ flashcards = [{'French': 'partie', 'English': 'part'}, {'French': 'histoire', 'E
               {'French': 'filles', 'English': 'girls'}, {'French': 'jouer', 'English': 'to play'},
               {'French': 'bureau', 'English': 'office'}]
 
+flashcards_ini = copy.deepcopy(flashcards)
+
 current_card = {}
 score = 0
 streak = 0
@@ -90,6 +93,7 @@ def toggle_how_to():
         score_button.config(state="normal")
         how_to_play.config(state="disabled")
 
+
 def toggle_counter():
     global click_count
     if click_count % 2 == 1:
@@ -111,6 +115,7 @@ def right_answer():
     global streak
     score += 1
     streak += 1
+    flashcards.remove(current_card)
     next_card()
 
 
@@ -134,23 +139,47 @@ def get_current_card():
 
 def next_card():
     global current_card
-    if canvas.itemcget(card_title, 'text') == "English":
+    global flashcards
+    global flashcards_ini
+    global score
+    global streak
+    if len(flashcards) < 1:
+        canvas.itemconfig(card_title, text="Congratulations!", font=('Helvetica', '40'), fill='#3B322C',
+                          justify='center')
+        canvas.itemconfig(card_text, text="You have finished all the flashcards!", font=('Helvetica', '20'),
+                          fill='#3B322C', justify='center')
+        right_button.config(state="disabled")
+        wrong_button.config(state="disabled")
+        flip_button.config(state="disabled")
+        score_button.config(state="disabled")
+        start_button.config(state="normal")
+        how_to_play.config(state="disabled")
+        score = 0
+        streak = 0
+        flashcards = flashcards_ini
+    elif canvas.itemcget(card_title, 'text') == "English":
         current_card = random.choice(flashcards)
         canvas.itemconfig(card_title, text="English", font=('Helvetica', '40'), fill='white', justify='center')
         canvas.itemconfig(card_text, text=current_card["English"], font=('Helvetica', '60'), fill='white',
                           justify='center')
+        right_button.config(state="normal")
+        wrong_button.config(state="normal")
+        score_button.config(state="normal")
+        flip_button.config(state="normal")
+        start_button.config(state="disabled")
+        how_to_play.config(state="normal")
     else:
         current_card = random.choice(flashcards)
         canvas.itemconfig(card_title, text="French", font=('Helvetica', '40'), fill='#3B322C', justify='center')
         canvas.itemconfig(card_text, text=current_card["French"], font=('Helvetica', '60'), fill='#3B322C',
                           justify='center')
+        right_button.config(state="normal")
+        wrong_button.config(state="normal")
+        score_button.config(state="normal")
+        flip_button.config(state="normal")
+        start_button.config(state="disabled")
+        how_to_play.config(state="normal")
 
-    right_button.config(state="normal")
-    wrong_button.config(state="normal")
-    score_button.config(state="normal")
-    flip_button.config(state="normal")
-    start_button.config(state="disabled")
-    how_to_play.config(state="normal")
 
 
 def flip_card():
